@@ -111,19 +111,21 @@
 ```json
 {
   "type": "object",
+  "description": "柱状图：用等宽柱子的高度对比不同类别的数值大小",
   "required": ["type", "label", "values"],
   "properties": {
     "type": { "type": "string", "const": "BarChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "数值单位，显示在数值旁" },
     "values": {
       "type": "array",
+      "description": "每根柱子对应一个 label-value 对，label 显示在 X 轴，value 决定柱子高度",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number" }
+          "label": { "type": "string", "description": "柱子的类别标签" },
+          "value": { "type": "number", "description": "柱子的数值高度" }
         }
       },
       "minItems": 3,
@@ -181,20 +183,22 @@
 ```json
 {
   "type": "object",
+  "description": "折线图：用折线连接各时间点的数值，展示随时间的变化趋势",
   "required": ["type", "label", "values"],
   "properties": {
     "type": { "type": "string", "const": "LineChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
-    "comparison": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "数值单位" },
+    "comparison": { "type": "string", "description": "趋势总结文本，如 '+75% in 5 months'" },
     "values": {
       "type": "array",
+      "description": "按时间顺序排列的数据点，相邻点之间用折线相连",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number" }
+          "label": { "type": "string", "description": "时间点标签，如 'Jan'、'Q1'" },
+          "value": { "type": "number", "description": "该时间点的数值" }
         }
       },
       "minItems": 4,
@@ -249,18 +253,20 @@
 ```json
 {
   "type": "object",
+  "description": "饼图：用圆形扇区展示整体中各部分的占比关系",
   "required": ["type", "label", "segments"],
   "properties": {
     "type": { "type": "string", "const": "PieChart" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
     "segments": {
       "type": "array",
+      "description": "各扇区数据，每个扇区的面积占比由 value 相对总和决定",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number", "minimum": 0 }
+          "label": { "type": "string", "description": "扇区名称" },
+          "value": { "type": "number", "minimum": 0, "description": "扇区数值，所有扇区的 value 之和代表整体" }
         }
       },
       "minItems": 3,
@@ -311,12 +317,13 @@
 ```json
 {
   "type": "object",
+  "description": "数据卡片：大字号突出展示单个关键指标，可附带对比说明",
   "required": ["type", "label", "value"],
   "properties": {
     "type": { "type": "string", "const": "StatCallout" },
-    "label": { "type": "string" },
-    "value": { "type": "string" },
-    "comparison": { "type": "string" }
+    "label": { "type": "string", "description": "指标名称" },
+    "value": { "type": "string", "description": "指标值，含单位的格式化文本，如 '$47.5B'" },
+    "comparison": { "type": "string", "description": "对比说明文本，如 '+23% vs 2023'" }
   }
 }
 ```
@@ -366,18 +373,20 @@
 ```json
 {
   "type": "object",
+  "description": "数据网格：以卡片网格形式同时展示多个关键指标",
   "required": ["type", "label", "stats"],
   "properties": {
     "type": { "type": "string", "const": "StatGrid" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "网格整体标题" },
     "stats": {
       "type": "array",
+      "description": "各指标卡片，每张卡片展示一个 label-value 对",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "string" }
+          "label": { "type": "string", "description": "指标名称" },
+          "value": { "type": "string", "description": "指标值，含单位的格式化文本" }
         }
       },
       "minItems": 2,
@@ -431,25 +440,28 @@
 ```json
 {
   "type": "object",
+  "description": "前后对比：用两根柱子并排展示同一指标在两个状态下的数值变化",
   "required": ["type", "label", "before", "after"],
   "properties": {
     "type": { "type": "string", "const": "ComparisonBar" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "对比主题标题" },
+    "unit": { "type": "string", "description": "数值单位" },
     "before": {
       "type": "object",
+      "description": "变化前的状态，渲染为左侧柱子",
       "required": ["label", "value"],
       "properties": {
-        "label": { "type": "string" },
-        "value": { "type": "number" }
+        "label": { "type": "string", "description": "前状态名称，如 '优化前'" },
+        "value": { "type": "number", "description": "前状态数值" }
       }
     },
     "after": {
       "type": "object",
+      "description": "变化后的状态，渲染为右侧柱子",
       "required": ["label", "value"],
       "properties": {
-        "label": { "type": "string" },
-        "value": { "type": "number" }
+        "label": { "type": "string", "description": "后状态名称，如 '优化后'" },
+        "value": { "type": "number", "description": "后状态数值" }
       }
     }
   }
@@ -502,36 +514,40 @@
 ```json
 {
   "type": "object",
+  "description": "对决对比：两个实体在多个维度上逐项 PK，左右对称展示",
   "required": ["type", "label", "entityA", "entityB", "metrics"],
   "properties": {
     "type": { "type": "string", "const": "VersusChart" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "对比主题标题" },
     "entityA": {
       "type": "object",
+      "description": "左侧实体信息",
       "required": ["name"],
       "properties": {
-        "name": { "type": "string" },
-        "ticker": { "type": "string" }
+        "name": { "type": "string", "description": "实体名称" },
+        "ticker": { "type": "string", "description": "股票代码等简称标识" }
       }
     },
     "entityB": {
       "type": "object",
+      "description": "右侧实体信息",
       "required": ["name"],
       "properties": {
-        "name": { "type": "string" },
-        "ticker": { "type": "string" }
+        "name": { "type": "string", "description": "实体名称" },
+        "ticker": { "type": "string", "description": "股票代码等简称标识" }
       }
     },
     "metrics": {
       "type": "array",
+      "description": "对比维度列表，每行展示一个维度的左右数值对比",
       "items": {
         "type": "object",
         "required": ["label", "valueA", "valueB"],
         "properties": {
-          "label": { "type": "string" },
-          "valueA": { "type": "number" },
-          "valueB": { "type": "number" },
-          "unit": { "type": "string" }
+          "label": { "type": "string", "description": "维度名称" },
+          "valueA": { "type": "number", "description": "entityA 在该维度的数值" },
+          "valueB": { "type": "number", "description": "entityB 在该维度的数值" },
+          "unit": { "type": "string", "description": "该维度的单位" }
         }
       },
       "minItems": 3,
@@ -586,20 +602,22 @@
 ```json
 {
   "type": "object",
+  "description": "哑铃图：每行一个类别，用两端圆点和连线展示从 start 到 end 的范围跨度",
   "required": ["type", "label", "dumbbellPoints"],
   "properties": {
     "type": { "type": "string", "const": "DumbbellChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "数值单位" },
     "dumbbellPoints": {
       "type": "array",
+      "description": "各类别的范围数据，每项渲染为一行哑铃",
       "items": {
         "type": "object",
         "required": ["label", "start", "end"],
         "properties": {
-          "label": { "type": "string" },
-          "start": { "type": "number" },
-          "end": { "type": "number" }
+          "label": { "type": "string", "description": "类别名称" },
+          "start": { "type": "number", "description": "范围起点值（左侧圆点）" },
+          "end": { "type": "number", "description": "范围终点值（右侧圆点）" }
         }
       },
       "minItems": 2,
@@ -654,20 +672,22 @@
 ```json
 {
   "type": "object",
+  "description": "棒棒糖图：用细线+顶端圆点展示各项数值，比柱状图更轻量，适合突出高亮项",
   "required": ["type", "label", "lollipopItems"],
   "properties": {
     "type": { "type": "string", "const": "LollipopChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "数值单位" },
     "lollipopItems": {
       "type": "array",
+      "description": "各项数据，每项渲染为一根细线加顶端圆点",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number" },
-          "highlight": { "type": "boolean", "default": false }
+          "label": { "type": "string", "description": "项目名称" },
+          "value": { "type": "number", "description": "数值，决定棒棒糖的高度" },
+          "highlight": { "type": "boolean", "default": false, "description": "是否高亮突出此项" }
         }
       },
       "minItems": 3,
@@ -724,19 +744,21 @@
 ```json
 {
   "type": "object",
+  "description": "排行榜：按数值从大到小排列的水平条形图，突出排名顺序",
   "required": ["type", "label", "items"],
   "properties": {
     "type": { "type": "string", "const": "RankingBar" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "排行榜标题" },
     "items": {
       "type": "array",
+      "description": "排名项目列表，按 value 从大到小排列",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number" },
-          "unit": { "type": "string" }
+          "label": { "type": "string", "description": "排名项名称" },
+          "value": { "type": "number", "description": "排名数值，决定条形长度" },
+          "unit": { "type": "string", "description": "该项的单位" }
         }
       },
       "minItems": 3,
@@ -791,18 +813,20 @@
 ```json
 {
   "type": "object",
+  "description": "漏斗图：从上到下逐级收窄，展示各阶段的转化流失过程",
   "required": ["type", "label", "funnelStages"],
   "properties": {
     "type": { "type": "string", "const": "FunnelChart" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "漏斗标题" },
     "funnelStages": {
       "type": "array",
+      "description": "漏斗各阶段，从上到下按转化顺序排列，value 应逐级递减",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number", "minimum": 0 }
+          "label": { "type": "string", "description": "阶段名称" },
+          "value": { "type": "number", "minimum": 0, "description": "该阶段的数量，决定漏斗该层的宽度" }
         }
       },
       "minItems": 3,
@@ -858,18 +882,20 @@
 ```json
 {
   "type": "object",
+  "description": "树图：用嵌套矩形展示各部分占整体的比例，面积越大占比越高",
   "required": ["type", "label", "treemapItems"],
   "properties": {
     "type": { "type": "string", "const": "TreemapChart" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
     "treemapItems": {
       "type": "array",
+      "description": "各区块数据，value 越大矩形面积越大",
       "items": {
         "type": "object",
         "required": ["label", "value"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number", "minimum": 0 }
+          "label": { "type": "string", "description": "区块名称，显示在矩形内" },
+          "value": { "type": "number", "minimum": 0, "description": "区块数值，决定矩形面积占比" }
         }
       },
       "minItems": 4,
@@ -924,18 +950,21 @@
 ```json
 {
   "type": "object",
+  "description": "基准热力图：用色块矩阵展示多个实体在多个维度的评分，颜色深浅表示分数高低",
   "required": ["type", "label", "dimensions", "benchmarkEntities"],
   "properties": {
     "type": { "type": "string", "const": "BenchmarkHeatmap" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
     "dimensions": {
       "type": "array",
+      "description": "评分维度名称列表，作为热力图的列标题",
       "items": { "type": "string" },
       "minItems": 3,
       "maxItems": 6
     },
     "benchmarkEntities": {
       "type": "array",
+      "description": "参与评分的实体列表，每个实体占热力图的一行",
       "items": {
         "$ref": "#/$defs/BenchmarkEntity"
       },
@@ -946,14 +975,16 @@
   "$defs": {
     "BenchmarkEntity": {
       "type": "object",
+      "description": "一个被评分的实体，scores 数组与 dimensions 一一对应",
       "required": ["label", "scores", "overall"],
       "properties": {
-        "label": { "type": "string" },
+        "label": { "type": "string", "description": "实体名称，显示在行标题" },
         "scores": {
           "type": "array",
+          "description": "各维度的评分，顺序与 dimensions 一一对应，分数越高色块越深",
           "items": { "type": "number" }
         },
-        "overall": { "type": "number" }
+        "overall": { "type": "number", "description": "综合评分，显示在行末" }
       }
     }
   }
@@ -1007,19 +1038,21 @@
 ```json
 {
   "type": "object",
+  "description": "流程图：用箭头串联的步骤节点，展示线性流程或操作序列",
   "required": ["type", "label", "stages"],
   "properties": {
     "type": { "type": "string", "const": "FlowDiagram" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "流程标题" },
     "stages": {
       "type": "array",
+      "description": "按顺序排列的流程步骤，前后步骤之间用箭头连接",
       "items": {
         "type": "object",
         "required": ["label"],
         "properties": {
-          "label": { "type": "string" },
-          "sublabel": { "type": "string" },
-          "stat": { "type": "string" }
+          "label": { "type": "string", "description": "步骤名称" },
+          "sublabel": { "type": "string", "description": "步骤补充说明，如转化率" },
+          "stat": { "type": "string", "description": "步骤关键数据，如 '3,200'" }
         }
       },
       "minItems": 2,
@@ -1074,19 +1107,21 @@
 ```json
 {
   "type": "object",
+  "description": "时间线：沿时间轴排列的事件节点，展示关键里程碑的先后顺序",
   "required": ["type", "label", "events"],
   "properties": {
     "type": { "type": "string", "const": "TimelineDiagram" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "时间线标题" },
     "events": {
       "type": "array",
+      "description": "按时间顺序排列的事件列表，每个事件渲染为时间轴上的一个节点",
       "items": {
         "type": "object",
         "required": ["date", "label"],
         "properties": {
-          "date": { "type": "string" },
-          "label": { "type": "string" },
-          "impact": { "type": "string" }
+          "date": { "type": "string", "description": "事件时间标记，如 '2024-Q1'" },
+          "label": { "type": "string", "description": "事件名称" },
+          "impact": { "type": "string", "description": "事件影响或成果说明" }
         }
       },
       "minItems": 2,
@@ -1149,19 +1184,21 @@
 ```json
 {
   "type": "object",
+  "description": "桑基图：用不同宽度的流线连接节点，展示流量或资金在来源与去向之间的分配",
   "required": ["type", "label", "nodes", "links"],
   "properties": {
     "type": { "type": "string", "const": "SankeyChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "流量单位" },
     "nodes": {
       "type": "array",
+      "description": "所有节点（来源和去向），每个节点渲染为一个方块",
       "items": {
         "type": "object",
         "required": ["id", "label"],
         "properties": {
-          "id": { "type": "string" },
-          "label": { "type": "string" }
+          "id": { "type": "string", "description": "节点唯一标识，供 links 中 source/target 引用" },
+          "label": { "type": "string", "description": "节点显示名称" }
         }
       },
       "minItems": 4,
@@ -1169,13 +1206,14 @@
     },
     "links": {
       "type": "array",
+      "description": "节点之间的流向连线，线的宽度由 value 决定",
       "items": {
         "type": "object",
         "required": ["source", "target", "value"],
         "properties": {
-          "source": { "type": "string" },
-          "target": { "type": "string" },
-          "value": { "type": "number", "minimum": 0 }
+          "source": { "type": "string", "description": "来源节点 id" },
+          "target": { "type": "string", "description": "去向节点 id" },
+          "value": { "type": "number", "minimum": 0, "description": "流量数值，决定连线宽度" }
         }
       }
     }
@@ -1233,12 +1271,14 @@
 ```json
 {
   "type": "object",
+  "description": "网络关系图：用节点和连线展示实体之间的关系网络，节点大小和边的粗细表示层级和强度",
   "required": ["type", "label", "networkNodes", "networkEdges"],
   "properties": {
     "type": { "type": "string", "const": "NetworkGraph" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
     "networkNodes": {
       "type": "array",
+      "description": "网络中的实体节点，每个节点渲染为一个圆形",
       "items": {
         "$ref": "#/$defs/NetworkNode"
       },
@@ -1247,6 +1287,7 @@
     },
     "networkEdges": {
       "type": "array",
+      "description": "节点之间的关系连线",
       "items": {
         "$ref": "#/$defs/NetworkEdge"
       }
@@ -1255,24 +1296,26 @@
   "$defs": {
     "NetworkNode": {
       "type": "object",
+      "description": "一个网络节点，代表一个实体",
       "required": ["id", "label"],
       "properties": {
-        "id": { "type": "string" },
-        "label": { "type": "string" },
-        "tier": { "type": "integer" },
-        "type": { "type": "string" },
-        "highlight": { "type": "boolean", "default": false }
+        "id": { "type": "string", "description": "节点唯一标识，供 edges 中 from/to 引用" },
+        "label": { "type": "string", "description": "节点显示名称" },
+        "tier": { "type": "integer", "description": "层级，1 为核心层，数字越大越外围，影响节点大小" },
+        "type": { "type": "string", "description": "节点类别，如 'company'、'product'" },
+        "highlight": { "type": "boolean", "default": false, "description": "是否高亮此节点" }
       }
     },
     "NetworkEdge": {
       "type": "object",
+      "description": "两个节点之间的关系连线",
       "required": ["from", "to", "type", "strength"],
       "properties": {
-        "from": { "type": "string" },
-        "to": { "type": "string" },
-        "type": { "type": "string" },
-        "label": { "type": "string" },
-        "strength": { "type": "integer", "minimum": 1, "maximum": 3 }
+        "from": { "type": "string", "description": "起始节点 id" },
+        "to": { "type": "string", "description": "目标节点 id" },
+        "type": { "type": "string", "description": "关系类型，如 'invests'、'competes'" },
+        "label": { "type": "string", "description": "连线上的标注文本" },
+        "strength": { "type": "integer", "minimum": 1, "maximum": 3, "description": "关系强度，1-3，决定连线粗细" }
       }
     }
   }
@@ -1328,22 +1371,25 @@
 ```json
 {
   "type": "object",
+  "description": "瀑布图：用浮动柱子展示从起始值经过增减变化到最终值的累积过程",
   "required": ["type", "label", "items"],
   "properties": {
     "type": { "type": "string", "const": "WaterfallChart" },
-    "label": { "type": "string" },
-    "unit": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "unit": { "type": "string", "description": "数值单位" },
     "items": {
       "type": "array",
+      "description": "瀑布图各步骤，通常以 total 开始、result 结束，中间是 positive/negative 增减项",
       "items": {
         "type": "object",
         "required": ["label", "value", "type"],
         "properties": {
-          "label": { "type": "string" },
-          "value": { "type": "number" },
+          "label": { "type": "string", "description": "步骤名称" },
+          "value": { "type": "number", "description": "步骤数值，正数为增加，负数为减少" },
           "type": {
             "type": "string",
-            "enum": ["total", "positive", "negative", "result"]
+            "enum": ["total", "positive", "negative", "result"],
+            "description": "步骤类型：total=起始基准, positive=增加项(绿色), negative=减少项(红色), result=最终结果"
           }
         }
       },
@@ -1396,13 +1442,14 @@
 ```json
 {
   "type": "object",
+  "description": "仪表盘：用半圆弧形表盘展示单个指标在范围中的位置，类似汽车仪表盘",
   "required": ["type", "label", "value", "max"],
   "properties": {
     "type": { "type": "string", "const": "GaugeChart" },
-    "label": { "type": "string" },
-    "value": { "type": "string" },
-    "max": { "type": "number" },
-    "context": { "type": "string" }
+    "label": { "type": "string", "description": "指标名称" },
+    "value": { "type": "string", "description": "当前值，含单位的格式化文本，如 '73%'" },
+    "max": { "type": "number", "description": "表盘最大刻度值，指针位置 = value / max" },
+    "context": { "type": "string", "description": "补充说明，如阈值或警戒线信息" }
   }
 }
 ```
@@ -1455,28 +1502,33 @@
 ```json
 {
   "type": "object",
+  "description": "四象限矩阵：以十字线将平面分为四个象限，将实体按两个维度定位在散点图上",
   "required": ["type", "label", "xAxis", "yAxis", "quadrantLabels", "quadrantEntities"],
   "properties": {
     "type": { "type": "string", "const": "QuadrantMatrix" },
-    "label": { "type": "string" },
+    "label": { "type": "string", "description": "矩阵标题" },
     "xAxis": {
       "type": "object",
+      "description": "X 轴（水平轴）定义",
       "required": ["label"],
-      "properties": { "label": { "type": "string" } }
+      "properties": { "label": { "type": "string", "description": "X 轴含义，如 '用户影响力'" } }
     },
     "yAxis": {
       "type": "object",
+      "description": "Y 轴（垂直轴）定义",
       "required": ["label"],
-      "properties": { "label": { "type": "string" } }
+      "properties": { "label": { "type": "string", "description": "Y 轴含义，如 '开发成本'" } }
     },
     "quadrantLabels": {
       "type": "array",
+      "description": "四个象限的名称，顺序：右上、左上、右下、左下",
       "items": { "type": "string" },
       "minItems": 4,
       "maxItems": 4
     },
     "quadrantEntities": {
       "type": "array",
+      "description": "需要定位的实体列表，每个实体在二维平面上渲染为一个散点",
       "items": {
         "$ref": "#/$defs/QuadrantEntity"
       },
@@ -1487,12 +1539,13 @@
   "$defs": {
     "QuadrantEntity": {
       "type": "object",
+      "description": "一个需要在四象限中定位的实体",
       "required": ["label", "x", "y"],
       "properties": {
-        "label": { "type": "string" },
-        "x": { "type": "number", "minimum": 0, "maximum": 100 },
-        "y": { "type": "number", "minimum": 0, "maximum": 100 },
-        "highlight": { "type": "boolean", "default": false }
+        "label": { "type": "string", "description": "实体名称，显示在散点旁" },
+        "x": { "type": "number", "minimum": 0, "maximum": 100, "description": "X 轴位置，0-100，50 为中线" },
+        "y": { "type": "number", "minimum": 0, "maximum": 100, "description": "Y 轴位置，0-100，50 为中线" },
+        "highlight": { "type": "boolean", "default": false, "description": "是否高亮此实体" }
       }
     }
   }
@@ -1546,20 +1599,22 @@
 ```json
 {
   "type": "object",
+  "description": "敏感性分析：展示一个输入变量变化时，对多个输出指标的影响程度，正向影响向右、负向影响向左",
   "required": ["type", "label", "inputLabel", "inputChange", "sensitivityEntities"],
   "properties": {
     "type": { "type": "string", "const": "SensitivityChart" },
-    "label": { "type": "string" },
-    "inputLabel": { "type": "string" },
-    "inputChange": { "type": "string" },
+    "label": { "type": "string", "description": "图表标题" },
+    "inputLabel": { "type": "string", "description": "变化的输入变量名称，如 '基准利率'" },
+    "inputChange": { "type": "string", "description": "输入变量的变化幅度，如 '+100bps'" },
     "sensitivityEntities": {
       "type": "array",
+      "description": "受影响的输出指标列表，每项渲染为一根双向条形",
       "items": {
         "type": "object",
         "required": ["label", "multiplier"],
         "properties": {
-          "label": { "type": "string" },
-          "multiplier": { "type": "number" }
+          "label": { "type": "string", "description": "受影响的指标名称" },
+          "multiplier": { "type": "number", "description": "影响倍数，正值=正向影响，负值=负向影响" }
         }
       },
       "minItems": 2,
