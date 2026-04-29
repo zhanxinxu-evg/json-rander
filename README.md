@@ -19,9 +19,9 @@
 
 | 分类 | 文档 | 说明 |
 |---|---|---|
-| 通用图表 | [chart-design-guide.md](./chart-design-guide.md) | 通用图表设计指南：AI 生成全部数据，前端纯渲染 |
-| 通用图表 | [chart-examples.md](./chart-examples.md) | 通用图表完整示例与 JSON Schema |
-| 业务组件 | [business-component-guide.md](./business-component-guide.md) | 业务组件设计指南：含复杂组件与简单引导组件 |
+| 通用图表 | [chart-design-guide.md](./chart-design-guide.md) | 通用图表需求指南：如何提出新图表需求 |
+| 通用图表 | [chart-examples.md](./chart-examples.md) | 通用图表样式说明与使用场景参考 |
+| 业务组件 | [business-component-guide.md](./business-component-guide.md) | 业务组件需求指南：如何提出业务组件需求 |
 
 ## 如何选择？
 
